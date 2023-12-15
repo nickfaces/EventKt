@@ -34,20 +34,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Adding nexus repo for publish to build.gradle.kts
-        run: |
-          echo '
-          allprojects {
-          publishing.repositories.maven {
-          val repo = if(project.version.toString().endsWith("-SNAPSHOT")) "snapshots" else "releases"
-          url = uri("${System.getenv("NEXUS_IP")}/repository/maven-$repo")
-          credentials {
-          username = System.getenv("NEXUS_USER")
-          password = System.getenv("NEXUS_PASSWORD")
-          }
-          }
-          }' >> build.gradle.kts
-
       # Runs a single command using the runners shell
       - name: Build with Gradle
         env:
